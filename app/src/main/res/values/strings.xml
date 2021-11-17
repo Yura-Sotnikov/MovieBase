@@ -1,3 +1,30 @@
 <resources>
-    <string name="app_name">MovieBase</string>
+    <string name="app_name">Movie Base</string>
+    <string name="title_01">Reservoir Dogs</string>
+    <string name="description_01">When a simple jewelry heist goes horribly wrong, the surviving criminals begin to suspect that one of them is a police informant.</string>
+    <string name="btn_Details">Details</string>
+    <string name="title_02">Pulp Fiction</string>
+    <string name="tv_description_02">The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.</string>
+    <string name="title_03">Four Rooms</string>
+    <string name="tv_description_03">Four interlocking tales that take place in a fading hotel on New Year\'s Eve.</string>
+    <string name="title_04">Jackie Brown</string>
+    <string name="tv_description_04">A flight attendant with a criminal past gets nabbed by the FBI for smuggling. Under pressure to become an informant against the drug dealer she works for, she must find a way to secure her future without getting killed.</string>
+    <string name="title_05">Kill Bill: Vol. 1</string>
+    <string name="tv_description_05">After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her.</string>
+    <string name="title_06">Kill Bill: Vol. 2</string>
+    <string name="tv_description_06">The Bride continues her quest of vengeance against her former boss and lover Bill, the reclusive bouncer Budd, and the treacherous, one-eyed Elle.</string>
+    <string name="title_07">Sin City</string>
+    <string name="tv_description_07">An exploration of the dark and miserable Basin City and three of its residents, all of whom are caught up in violent corruption.</string>
+    <string name="title_08">Grindhouse</string>
+    <string name="tv_description_08">Quentin Tarantino and Robert Rodriguez\'s homage to exploitation double features in the \'60s and \'70s with two back-to-back cult films that include previews of coming attractions between them.</string>
+    <string name="title_09">Death Proof</string>
+    <string name="tv_description_09">"Two separate sets of voluptuous women are stalked at different times by a scarred stuntman who uses his \"death proof\" cars to execute his murderous plans. "</string>
+    <string name="title_10">"Inglourious Basterds "</string>
+    <string name="tv_description_10">In Nazi-occupied France during World War II, a plan to assassinate Nazi leaders by a group of Jewish U.S. soldiers coincides with a theatre owner\'s vengeful plans for the same.</string>
+    <string name="title_11">Django Unchained</string>
+    <string name="tv_description_11">"With the help of a German bounty-hunter, a freed slave sets out to rescue his wife from a brutal plantation-owner in Mississippi. "</string>
+    <string name="title_12">The Hateful Eight</string>
+    <string name="tv_description_12">In the dead of a Wyoming winter, a bounty hunter and his prisoner find shelter in a cabin currently inhabited by a collection of nefarious characters.</string>
+    <string name="title_13">Once Upon a Time… in Hollywood</string>
+    <string name="tv_description_13">A faded television actor and his stunt double strive to achieve fame and success in the final years of Hollywood\'s Golden Age in 1969 Los Angeles.</string>
 </resources>
