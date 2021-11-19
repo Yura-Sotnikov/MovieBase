@@ -1,5 +1,6 @@
 package com.sym.moviebase
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     companion object {
@@ -166,6 +168,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     //Custom functions
     private fun initButtonListeners() {
+        //FAB
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            //Invite friend
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "Go to my app!")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+
+        //Buttons detail
         for (movie in cards) {
             val index: Int = movie[0] as Int
             val card: CardView = movie[1] as CardView
