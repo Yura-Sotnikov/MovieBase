@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">База фильмов</string>
+    <string name="title_01">Бешеные псы</string>
+    <string name="btn_Details">Детали</string>
+    <string name="done">Готово</string>
+    <string name="like">Нравиться</string>
+    <string name="comment">Комментарий</string>
+    <string name="invite_friend">Пригласить друга</string>
+    <string name="title_02">Криминальное чтиво</string>
+    <string name="title_03">Четыре комнаты</string>
+    <string name="title_04">"Джеки Браун "</string>
+    <string name="title_05">Убить Билла</string>
+    <string name="title_06">Убить Билла 2</string>
+    <string name="title_07">Город грехов</string>
+    <string name="title_08">Грайндхаус</string>
+    <string name="title_09">Доказательство смерти</string>
+    <string name="title_10">Бесславные ублюдки</string>
+    <string name="title_11">Джанго освобожденный</string>
+    <string name="title_12">Омерзительная восьмерка</string>
+    <string name="title_13">Однажды в… Голливуде</string>
+</resources>
