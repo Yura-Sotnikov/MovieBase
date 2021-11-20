@@ -1,5 +1,6 @@
 package com.sym.moviebase
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
@@ -10,6 +11,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -143,6 +146,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
     }
 
+    private val detailActivityContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            Log.d("RESULT_DETAIL_ACTIVITY", "Like this content: ${result.data?.getStringExtra(DetailActivity.RESULT_LIKE)}; Comment: ${result.data?.getStringExtra(DetailActivity.RESULT_COMMENT)}")
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -204,6 +215,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 //Launch detail activity
                 DetailActivity.launchActivity(
                     this,
+                    detailActivityContract,
                     title.text.toString(),
                     description.text.toString(),
                     intPoster
@@ -212,3 +224,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 }
+

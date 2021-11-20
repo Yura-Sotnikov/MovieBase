@@ -28,4 +28,7 @@
     <string name="title_13">Once Upon a Time… in Hollywood</string>
     <string name="tv_description_13">A faded television actor and his stunt double strive to achieve fame and success in the final years of Hollywood\'s Golden Age in 1969 Los Angeles.</string>
     <string name="invite_friend">Invite friend</string>
+    <string name="comment">Comment:</string>
+    <string name="like">Like</string>
+    <string name="done">Done</string>
 </resources>
