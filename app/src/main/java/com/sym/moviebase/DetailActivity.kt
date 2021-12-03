@@ -32,14 +32,12 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
         fun launchActivity(
             activity: Activity,
             contract: ActivityResultLauncher<Intent>,
-            title: String,
-            description: String,
-            poster: Int
+            movie: MovieItem
         ) {
             val intentForResult = Intent(activity, DetailActivity::class.java).apply {
-                putExtra(EXTRA_TITLE, title)
-                putExtra(EXTRA_DESCRIPTION, description)
-                putExtra(EXTRA_POSTER, poster)
+                putExtra(EXTRA_TITLE, movie.title)
+                putExtra(EXTRA_DESCRIPTION, movie.description)
+                putExtra(EXTRA_POSTER, movie.poster)
             }
 
             contract.launch(intentForResult)
@@ -70,8 +68,6 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
         //Button Like
         btn_Like.setOnClickListener {
             isChecked = !isChecked
-
-            btn_Like.icon
 
             if (isChecked) {
                 btn_Like.icon = ResourcesCompat.getDrawable(

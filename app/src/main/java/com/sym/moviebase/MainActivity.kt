@@ -2,182 +2,133 @@ package com.sym.moviebase
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.content.res.Resources
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContract
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+// TODO(3) Дополните функциональность вашего приложения сохранением фильмов в список избранного
+//  (избранное пока храните в обычном List на уровне Activity).  Используйте для этого или долгое
+//  нажатие на элемент списка, или тап на ImageView в виде сердечка рядом с названием фильма
+//
+// TODO(4) Создайте экран, где будет отображаться список Избранного
+//
+// TODO(5) Сделайте так, чтобы из списка избранного можно было удалять элементы
+//
+// TODO(6) Добавьте поддержку альбомной ориентации. Интерфейс должен отличаться.
+//  Например, в портретной 1 фильм в строке списка, а в альбомной 2-3
+//
+//
+// TODO(7) Создайте кастомный диалог подтверждения при выходе из приложения при нажатии
+//  кнопки back (использовать метод onBackPressed)
+//
+// TODO(8) *Написать собственный ItemDecoration
+//
+// TODO(9) *Самостоятельно изучите RecyclerView.ItemAnimator, создайте свои собственные анимации
+
+
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+
     companion object {
         private const val EXTRA_SELECTED_MOVIE = "EXTRA_SELECTED_MOVIE"
+        private const val EXTRA_FAVORITE_MOVIES = "EXTRA_FAVORITE_MOVIES"
     }
 
-    private var selectedMovie = -1
-    private var DefaultBackgroundColor = 0
+    //Init test data
+    private val movies: MutableList<MovieItem> = initTestData()
+    private var favoriteMovies: ArrayList<MovieItem> = arrayListOf()
 
-    private val cards by lazy {
-        arrayOf(
-            arrayOf(
-                0,
-                findViewById<CardView>(R.id.card_01),
-                findViewById<ImageView>(R.id.iv_poster_01),
-                findViewById<TextView>(R.id.tv_title_01),
-                findViewById<TextView>(R.id.tv_description_01),
-                findViewById<Button>(R.id.btnDetails_01),
-                R.drawable.mb_poster_01
-            ),
-            arrayOf(
-                1,
-                findViewById<CardView>(R.id.card_02),
-                findViewById<ImageView>(R.id.iv_poster_02),
-                findViewById<TextView>(R.id.tv_title_02),
-                findViewById<TextView>(R.id.tv_description_02),
-                findViewById<Button>(R.id.btnDetails_02),
-                R.drawable.mb_poster_02
-            ),
-            arrayOf(
-                2,
-                findViewById<CardView>(R.id.card_03),
-                findViewById<ImageView>(R.id.iv_poster_03),
-                findViewById<TextView>(R.id.tv_title_03),
-                findViewById<TextView>(R.id.tv_description_03),
-                findViewById<Button>(R.id.btnDetails_03),
-                R.drawable.mb_poster_03
-            ),
-            arrayOf(
-                3,
-                findViewById<CardView>(R.id.card_04),
-                findViewById<ImageView>(R.id.iv_poster_04),
-                findViewById<TextView>(R.id.tv_title_04),
-                findViewById<TextView>(R.id.tv_description_04),
-                findViewById<Button>(R.id.btnDetails_04),
-                R.drawable.mb_poster_04
-            ),
-            arrayOf(
-                4,
-                findViewById<CardView>(R.id.card_05),
-                findViewById<ImageView>(R.id.iv_poster_05),
-                findViewById<TextView>(R.id.tv_title_05),
-                findViewById<TextView>(R.id.tv_description_05),
-                findViewById<Button>(R.id.btnDetails_05),
-                R.drawable.mb_poster_05
-            ),
-            arrayOf(
-                5,
-                findViewById<CardView>(R.id.card_06),
-                findViewById<ImageView>(R.id.iv_poster_06),
-                findViewById<TextView>(R.id.tv_title_06),
-                findViewById<TextView>(R.id.tv_description_06),
-                findViewById<Button>(R.id.btnDetails_06),
-                R.drawable.mb_poster_06
-            ),
-            arrayOf(
-                6,
-                findViewById<CardView>(R.id.card_07),
-                findViewById<ImageView>(R.id.iv_poster_07),
-                findViewById<TextView>(R.id.tv_title_07),
-                findViewById<TextView>(R.id.tv_description_07),
-                findViewById<Button>(R.id.btnDetails_07),
-                R.drawable.mb_poster_07
-            ),
-            arrayOf(
-                7,
-                findViewById<CardView>(R.id.card_08),
-                findViewById<ImageView>(R.id.iv_poster_08),
-                findViewById<TextView>(R.id.tv_title_08),
-                findViewById<TextView>(R.id.tv_description_08),
-                findViewById<Button>(R.id.btnDetails_08),
-                R.drawable.mb_poster_08
-            ),
-            arrayOf(
-                8,
-                findViewById<CardView>(R.id.card_09),
-                findViewById<ImageView>(R.id.iv_poster_09),
-                findViewById<TextView>(R.id.tv_title_09),
-                findViewById<TextView>(R.id.tv_description_09),
-                findViewById<Button>(R.id.btnDetails_09),
-                R.drawable.mb_poster_09
-            ),
-            arrayOf(
-                9,
-                findViewById<CardView>(R.id.card_10),
-                findViewById<ImageView>(R.id.iv_poster_10),
-                findViewById<TextView>(R.id.tv_title_10),
-                findViewById<TextView>(R.id.tv_description_10),
-                findViewById<Button>(R.id.btnDetails_10),
-                R.drawable.mb_poster_10
-            ),
-            arrayOf(
-                10,
-                findViewById<CardView>(R.id.card_11),
-                findViewById<ImageView>(R.id.iv_poster_11),
-                findViewById<TextView>(R.id.tv_title_11),
-                findViewById<TextView>(R.id.tv_description_11),
-                findViewById<Button>(R.id.btnDetails_11),
-                R.drawable.mb_poster_11
-            ),
-            arrayOf(
-                11,
-                findViewById<CardView>(R.id.card_12),
-                findViewById<ImageView>(R.id.iv_poster_12),
-                findViewById<TextView>(R.id.tv_title_12),
-                findViewById<TextView>(R.id.tv_description_12),
-                findViewById<Button>(R.id.btnDetails_12),
-                R.drawable.mb_poster_12
-            ),
-            arrayOf(
-                12,
-                findViewById<CardView>(R.id.card_13),
-                findViewById<ImageView>(R.id.iv_poster_13),
-                findViewById<TextView>(R.id.tv_title_13),
-                findViewById<TextView>(R.id.tv_description_13),
-                findViewById<Button>(R.id.btnDetails_13),
-                R.drawable.mb_poster_13
-            ),
-        )
-    }
+    var selectedMovie: Int = -1
 
-    private val detailActivityContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            Log.d("RESULT_DETAIL_ACTIVITY", "Like this content: ${result.data?.getStringExtra(DetailActivity.RESULT_LIKE)}; Comment: ${result.data?.getStringExtra(DetailActivity.RESULT_COMMENT)}")
+    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
+
+    private val detailActivityContract =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Log.d(
+                    "RESULT_DETAIL_ACTIVITY",
+                    "Like this content: ${result.data?.getStringExtra(DetailActivity.RESULT_LIKE)}; Comment: ${
+                        result.data?.getStringExtra(DetailActivity.RESULT_COMMENT)
+                    }; $selectedMovie"
+                )
+            }
+
+            this.recyclerView.adapter?.notifyDataSetChanged()
         }
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DefaultBackgroundColor = (cards[1][1] as CardView).cardBackgroundColor.defaultColor
-        Log.d("Default_color", DefaultBackgroundColor.toString())
+        //Restore save state
+        savedInstanceState?.getInt(EXTRA_SELECTED_MOVIE)?.let {
+            if (it != -1) selectedMovie = it
+        }
+
+        savedInstanceState?.getParcelableArrayList<MovieItem>(EXTRA_FAVORITE_MOVIES)?.let {
+            favoriteMovies = it
+        }
 
         initButtonListeners()
 
-        //Restore save state
-        savedInstanceState?.getInt(EXTRA_SELECTED_MOVIE)?.let {
-            if (it != -1) {
-                (cards[it][1] as CardView).setCardBackgroundColor(Color.LTGRAY)
-                selectedMovie = it
-            }
-        }
+        setUpRecyclerView(recyclerView)
+
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
         outState.putInt(EXTRA_SELECTED_MOVIE, selectedMovie)
+        outState.putParcelableArrayList(EXTRA_FAVORITE_MOVIES, favoriteMovies)
     }
 
     //Custom functions
+
+    //Init RecyclerView in activity_main.xml
+    private fun setUpRecyclerView(recyclerView: RecyclerView) {
+        val adapter = MovieItemsAdapter(
+            movies,
+            favoriteMovies,
+            selectedMovie,
+            object : MovieItemsAdapter.MovieClickListener {
+                override fun onDetailsClick(movie: MovieItem, position: Int, selectMovie: Int) {
+                    DetailActivity.launchActivity(this@MainActivity, detailActivityContract, movie)
+                    this@MainActivity.selectedMovie = position
+                    (this@MainActivity.recyclerView.adapter as MovieItemsAdapter).currentMovie =
+                        position
+                }
+
+                override fun onFavoriteClick(movie: MovieItem) {
+                    if (movie in favoriteMovies) {
+                        favoriteMovies.remove(movie)
+
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Remove from favorite movies",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    } else {
+                        favoriteMovies.add(movie)
+
+                        Toast.makeText(this@MainActivity, "Add favorite movies", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    (this@MainActivity.recyclerView.adapter as MovieItemsAdapter).favoriteMovies =
+                        favoriteMovies
+                }
+            })
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
     private fun initButtonListeners() {
         //FAB
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
@@ -190,37 +141,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
-        }
-
-        //Buttons detail
-        for (movie in cards) {
-            val index: Int = movie[0] as Int
-            val card: CardView = movie[1] as CardView
-            val title: TextView = movie[3] as TextView
-            val description: TextView = movie[4] as TextView
-            val btn: Button = movie[5] as Button
-            val intPoster: Int = movie[6] as Int
-
-
-            btn.setOnClickListener {
-                if (selectedMovie != -1) {
-                    (cards[selectedMovie][1] as CardView).setCardBackgroundColor(
-                        DefaultBackgroundColor
-                    )
-                }
-
-                selectedMovie = index
-                card.setCardBackgroundColor(Color.LTGRAY)
-
-                //Launch detail activity
-                DetailActivity.launchActivity(
-                    this,
-                    detailActivityContract,
-                    title.text.toString(),
-                    description.text.toString(),
-                    intPoster
-                )
-            }
         }
     }
 }

@@ -1,91 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/card_detail"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="4dp"
-    android:focusable="true">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/single_spacing">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/double_spacing"
+                android:paddingBottom="@dimen/single_spacing">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:layout_marginEnd="@dimen/single_spacing"
+                    android:paddingTop="@dimen/single_spacing"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_title_detail"
+                        style="?attr/textAppearanceHeadline5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"/>
+
+                    <TextView
+                        android:id="@+id/tv_description_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/single_spacing"
+                        android:ellipsize="end"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_poster_detail"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="@dimen/single_spacing"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@color/material_on_surface_emphasis_medium"
+                    android:tintMode="add"/>
+            </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/comment"
+        android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+    <EditText
+        android:id="@+id/et_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:ignore="LabelFor" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:gravity="end"
+        android:orientation="horizontal"
         android:padding="4dp">
 
-        <ImageView
-            android:id="@+id/iv_poster_detail"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:contentDescription="@string/title_01"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/tv_title_detail"
+        <Button
+            android:id="@+id/btn_Like"
+            style="?attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            tools:text="@tools:sample/full_names" />
+            android:text="@string/like"
+            app:icon="@drawable/ic_baseline_favorite_border_24" />
 
-        <TextView
-            android:id="@+id/tv_description_detail"
+        <Button
+            android:id="@+id/btn_Done"
+            style="?attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="?android:attr/textColorSecondary"
-            tools:text="@tools:sample/backgrounds/scenic" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:text="@string/comment" />
-
-        <EditText
-            android:id="@+id/et_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:importantForAutofill="no"
-            tools:ignore="LabelFor" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:padding="4dp">
-
-            <Button
-                android:id="@+id/btn_Like"
-                style="?attr/buttonBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/like"
-                app:icon = "@drawable/ic_baseline_favorite_border_24"/>
-
-            <Button
-                android:id="@+id/btn_Done"
-                style="?attr/buttonBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:text="@string/done" />
-        </LinearLayout>
-
+            android:text="@string/done" />
     </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
