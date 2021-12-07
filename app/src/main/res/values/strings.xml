@@ -6,6 +6,9 @@
     <string name="like">Like</string>
     <string name="done">Done</string>
     <string name="btn_favorite">Favorite</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btnNav_main">Main</string>
+    <string name="btnNav_favorite">Favorite</string>
 
     <!--    Testing data-->
     <string name="title_01" translatable="false">title_01</string>

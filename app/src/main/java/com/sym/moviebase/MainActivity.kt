@@ -5,16 +5,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.sym.moviebase.MovieItemsAdapter.MovieClickListener as MovieClickListener
 
-// TODO(4) Создайте экран, где будет отображаться список Избранного
-//
-// TODO(5) Сделайте так, чтобы из списка избранного можно было удалять элементы
-//
 // TODO(6) Добавьте поддержку альбомной ориентации. Интерфейс должен отличаться.
 //  Например, в портретной 1 фильм в строке списка, а в альбомной 2-3
 //
@@ -41,16 +41,23 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     var selectedMovie: Int = -1
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
+    private val bottomNavView by lazy { findViewById<BottomNavigationView>(R.id.bottom_nav) }
+
+    private lateinit var mainAdapter: MovieItemsAdapter
+    private lateinit var favoriteAdapter: MovieItemsAdapter
 
     private val detailActivityContract =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                val favorite: Boolean? =
+                    result.data?.getBooleanExtra(DetailActivity.RESULT_LIKE, false)
                 Log.d(
                     "RESULT_DETAIL_ACTIVITY",
-                    "Like this content: ${result.data?.getStringExtra(DetailActivity.RESULT_LIKE)}; Comment: ${
+                    "Like this content: $favorite; Comment: ${
                         result.data?.getStringExtra(DetailActivity.RESULT_COMMENT)
-                    }; $selectedMovie"
+                    };"
                 )
+                if (favorite == true) favoriteMovies.add(movies[selectedMovie])
             }
 
             this.recyclerView.adapter?.notifyItemRangeChanged(0, movies.size)
@@ -70,9 +77,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         initButtonListeners()
-
-        setUpRecyclerView(recyclerView)
-
+        setUpRecyclerView()
+        initBottomNav()
 
     }
 
@@ -84,44 +90,60 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     //Custom functions
+    private fun initBottomNav() {
+        bottomNavView.setOnItemSelectedListener {
+            when (it.title) {
+                "Main" -> recyclerView.adapter = mainAdapter
+                "Favorite" -> recyclerView.adapter = favoriteAdapter
+            }
+            true
+        }
+    }
 
     //Init RecyclerView in activity_main.xml
-    private fun setUpRecyclerView(recyclerView: RecyclerView) {
-        val adapter = MovieItemsAdapter(
+    private fun setUpRecyclerView() {
+
+        val adapterListeners = object : MovieClickListener {
+            override fun onDetailsClick(movie: MovieItem, position: Int, selectMovie: Int) {
+                DetailActivity.launchActivity(this@MainActivity, detailActivityContract, movie)
+                this@MainActivity.selectedMovie = position
+                (this@MainActivity.recyclerView.adapter as MovieItemsAdapter).currentMovie =
+                    position
+            }
+
+            override fun onFavoriteClick(movie: MovieItem, position: Int) {
+                if (movie in favoriteMovies)
+                    favoriteMovies.remove(movie)
+                else
+                    favoriteMovies.add(movie)
+
+                recyclerView.adapter?.notifyItemChanged(position)
+            }
+
+            override fun onRemoveClick(movie: MovieItem, position: Int) {
+                if (movie in favoriteMovies) favoriteMovies.remove(movie)
+
+                recyclerView.adapter?.notifyItemRemoved(position)
+            }
+        }
+
+        mainAdapter = MovieItemsAdapter(
             movies,
             favoriteMovies,
             selectedMovie,
-            object : MovieItemsAdapter.MovieClickListener {
-                override fun onDetailsClick(movie: MovieItem, position: Int, selectMovie: Int) {
-                    DetailActivity.launchActivity(this@MainActivity, detailActivityContract, movie)
-                    this@MainActivity.selectedMovie = position
-                    (this@MainActivity.recyclerView.adapter as MovieItemsAdapter).currentMovie =
-                        position
-                }
+            MovieItemsAdapter.TYPE_LIST_ALL_MOVIES,
+            adapterListeners
+        )
 
-                override fun onFavoriteClick(movie: MovieItem, position: Int) {
-                    if (movie in favoriteMovies) {
-                        favoriteMovies.remove(movie)
+        favoriteAdapter = MovieItemsAdapter(
+            favoriteMovies,
+            favoriteMovies,
+            selectedMovie,
+            MovieItemsAdapter.TYPE_LIST_FAVORITE_MOVIES,
+            adapterListeners
+        )
 
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Remove from favorite movies",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    } else {
-                        favoriteMovies.add(movie)
-
-                        Toast.makeText(this@MainActivity, "Add favorite movies", Toast.LENGTH_SHORT)
-                            .show()
-
-                    }
-
-                    recyclerView.adapter?.notifyItemChanged(position)
-                }
-            })
-
-        recyclerView.adapter = adapter
+        recyclerView.adapter = mainAdapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
@@ -140,4 +162,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 }
+
 

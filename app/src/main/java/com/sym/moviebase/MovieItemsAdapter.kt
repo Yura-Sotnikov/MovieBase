@@ -1,12 +1,10 @@
 package com.sym.moviebase
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -15,14 +13,31 @@ class MovieItemsAdapter(
     private val movies: List<MovieItem>,
     var favoriteMovies: List<MovieItem>,
     var currentMovie: Int,
+    val typeList: Int = 0,
     private val clickListener: MovieClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    companion object {
+        const val TYPE_LIST_ALL_MOVIES = 0     //Main
+        const val TYPE_LIST_FAVORITE_MOVIES = 1 //Favorite
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MovieViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
-        )
+
+        return when (viewType) {
+            1 -> FavoriteMovieViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_favorite_movie, parent, false)
+            )
+
+            else -> MovieViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
+            )
+
+        }
+
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -31,7 +46,17 @@ class MovieItemsAdapter(
             val favorite = item in favoriteMovies
 
             holder.bind(item, position, currentMovie, favorite, clickListener)
+        } else if (holder is FavoriteMovieViewHolder) {
+            val item = movies[position]
+
+            holder.bind(item, position, clickListener)
         }
+
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return typeList
     }
 
     override fun getItemCount(): Int = movies.size
@@ -39,6 +64,7 @@ class MovieItemsAdapter(
     interface MovieClickListener {
         fun onDetailsClick(movie: MovieItem, position: Int, selectMovie: Int)
         fun onFavoriteClick(movie: MovieItem, position: Int)
+        fun onRemoveClick(movie: MovieItem, position: Int)
     }
 
     class MovieViewHolder internal constructor(movieItemView: View) :
@@ -73,6 +99,27 @@ class MovieItemsAdapter(
                 )
             }
             _btnFavorite.setOnClickListener { clickListener.onFavoriteClick(movie, position) }
+        }
+    }
+
+    class FavoriteMovieViewHolder internal constructor(movieItemView: View) :
+        RecyclerView.ViewHolder(movieItemView) {
+
+        private val _ivPoster: ImageView = movieItemView.findViewById(R.id.iv_poster)
+        private val _tvTitle: TextView = movieItemView.findViewById(R.id.tv_title)
+        private val _tvDescription: TextView = movieItemView.findViewById(R.id.tv_description)
+        private val _btnRemove: MaterialButton = movieItemView.findViewById(R.id.btn_Remove)
+
+        fun bind(
+            movie: MovieItem,
+            position: Int,
+            clickListener: MovieClickListener
+        ) {
+            _tvTitle.text = movie.title
+            _tvDescription.text = movie.description
+            _ivPoster.setImageResource(movie.poster)
+
+            _btnRemove.setOnClickListener { clickListener.onRemoveClick(movie, position) }
         }
     }
 }
