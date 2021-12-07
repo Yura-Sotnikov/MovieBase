@@ -11,10 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-// TODO(3) Дополните функциональность вашего приложения сохранением фильмов в список избранного
-//  (избранное пока храните в обычном List на уровне Activity).  Используйте для этого или долгое
-//  нажатие на элемент списка, или тап на ImageView в виде сердечка рядом с названием фильма
-//
 // TODO(4) Создайте экран, где будет отображаться список Избранного
 //
 // TODO(5) Сделайте так, чтобы из списка избранного можно было удалять элементы
@@ -57,7 +53,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 )
             }
 
-            this.recyclerView.adapter?.notifyDataSetChanged()
+            this.recyclerView.adapter?.notifyItemRangeChanged(0, movies.size)
         }
 
 
@@ -103,7 +99,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         position
                 }
 
-                override fun onFavoriteClick(movie: MovieItem) {
+                override fun onFavoriteClick(movie: MovieItem, position: Int) {
                     if (movie in favoriteMovies) {
                         favoriteMovies.remove(movie)
 
@@ -118,10 +114,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
                         Toast.makeText(this@MainActivity, "Add favorite movies", Toast.LENGTH_SHORT)
                             .show()
+
                     }
 
-                    (this@MainActivity.recyclerView.adapter as MovieItemsAdapter).favoriteMovies =
-                        favoriteMovies
+                    recyclerView.adapter?.notifyItemChanged(position)
                 }
             })
 

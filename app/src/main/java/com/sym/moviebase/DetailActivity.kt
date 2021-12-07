@@ -69,21 +69,14 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
         btn_Like.setOnClickListener {
             isChecked = !isChecked
 
-            if (isChecked) {
-                btn_Like.icon = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_baseline_favorite_24,
-                    theme
-                )
-            } else {
-                btn_Like.icon = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.ic_baseline_favorite_border_24,
-                    theme
-                )
-            }
-
+            btn_Like.setIconResource(
+                if (isChecked)
+                    R.drawable.ic_baseline_favorite_24
+                else
+                    R.drawable.ic_baseline_favorite_border_24
+            )
         }
+
 
         //Button Done
         findViewById<Button>(R.id.btn_Done).setOnClickListener {
@@ -98,5 +91,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
             finish()
         }
     }
+
 }
+
 
