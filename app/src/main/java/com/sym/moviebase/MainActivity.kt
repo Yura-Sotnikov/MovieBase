@@ -1,23 +1,18 @@
 package com.sym.moviebase
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlin.coroutines.Continuation
 import com.sym.moviebase.MovieItemsAdapter.MovieClickListener as MovieClickListener
-
-// TODO(9) *Самостоятельно изучите RecyclerView.ItemAnimator, создайте свои собственные анимации
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -178,6 +173,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         //Item decoration
         val itemDecoration = MyItemDecoration(this, resources.configuration.orientation)
         recyclerView.addItemDecoration(itemDecoration)
+
 
     }
 
