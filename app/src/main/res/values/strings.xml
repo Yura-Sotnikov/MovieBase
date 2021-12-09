@@ -1,3 +1,44 @@
 <resources>
-    <string name="app_name">MovieBase</string>
+    <string name="app_name">Movie Base</string>
+    <string name="btn_Details">Details</string>
+    <string name="invite_friend">Invite friend</string>
+    <string name="comment">Comment:</string>
+    <string name="like">Like</string>
+    <string name="done">Done</string>
+    <string name="btn_favorite">Favorite</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btnNav_main">Main</string>
+    <string name="btnNav_favorite">Favorite</string>
+    <string name="btn_Cancel">Cancel</string>
+    <string name="btn_OK">OK</string>
+
+    <!--    Testing data-->
+    <string name="title_01" translatable="false">title_01</string>
+    <string name="description_01" translatable="false">description_01</string>
+    <string name="title_02" translatable="false">title_02</string>
+    <string name="tv_description_02" translatable="false">tv_description_02</string>
+    <string name="title_03" translatable="false">title_03</string>
+    <string name="tv_description_03" translatable="false">tv_description_03</string>
+    <string name="title_04" translatable="false">title_04</string>
+    <string name="tv_description_04" translatable="false">tv_description_04</string>
+    <string name="title_05" translatable="false">title_05</string>
+    <string name="tv_description_05" translatable="false">tv_description_05</string>
+    <string name="title_06" translatable="false">title_06</string>
+    <string name="tv_description_06" translatable="false">tv_description_06</string>
+    <string name="title_07" translatable="false">title_07</string>
+    <string name="tv_description_07" translatable="false">tv_description_07</string>
+    <string name="title_08" translatable="false">title_08</string>
+    <string name="tv_description_08" translatable="false">tv_description_08</string>
+    <string name="title_09" translatable="false">title_09</string>
+    <string name="tv_description_09" translatable="false">tv_description_09</string>
+    <string name="title_10" translatable="false">title_10</string>
+    <string name="tv_description_10" translatable="false">tv_description_10</string>
+    <string name="title_11" translatable="false">title_11</string>
+    <string name="tv_description_11" translatable="false">tv_description_11</string>
+    <string name="title_12" translatable="false">title_12</string>
+    <string name="tv_description_12" translatable="false">tv_description_12</string>
+    <string name="title_13" translatable="false">title_13</string>
+    <string name="tv_description_13" translatable="false">tv_description_13</string>
+    <string name="dialog_quit">Quit?</string>
+
 </resources>
