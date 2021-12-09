@@ -2,23 +2,19 @@ package com.sym.moviebase
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.iterator
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlin.coroutines.Continuation
 import com.sym.moviebase.MovieItemsAdapter.MovieClickListener as MovieClickListener
 
-// TODO(6) Добавьте поддержку альбомной ориентации. Интерфейс должен отличаться.
-//  Например, в портретной 1 фильм в строке списка, а в альбомной 2-3
-//
-//
 // TODO(7) Создайте кастомный диалог подтверждения при выходе из приложения при нажатии
 //  кнопки back (использовать метод onBackPressed)
 //
@@ -32,6 +28,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     companion object {
         private const val EXTRA_SELECTED_MOVIE = "EXTRA_SELECTED_MOVIE"
         private const val EXTRA_FAVORITE_MOVIES = "EXTRA_FAVORITE_MOVIES"
+        private const val EXTRA_CURRENT_TAB = "EXTRA_CURRENT_TAB"
+
+        private const val TAB_MAIN = 0
+        private const val TAB_FAVORITE = 1
     }
 
     //Init test data
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var mainAdapter: MovieItemsAdapter
     private lateinit var favoriteAdapter: MovieItemsAdapter
+
+    private var currentTab = TAB_MAIN
 
     private val detailActivityContract =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -68,13 +70,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         //Restore save state
-        savedInstanceState?.getInt(EXTRA_SELECTED_MOVIE)?.let {
-            if (it != -1) selectedMovie = it
+        savedInstanceState?.apply {
+            getInt(EXTRA_SELECTED_MOVIE).let { if (it != -1) selectedMovie = it }
+            getParcelableArrayList<MovieItem>(EXTRA_FAVORITE_MOVIES)?.let {
+                favoriteMovies = it
+            }
+            getInt(EXTRA_CURRENT_TAB).let { currentTab = it }
         }
 
-        savedInstanceState?.getParcelableArrayList<MovieItem>(EXTRA_FAVORITE_MOVIES)?.let {
-            favoriteMovies = it
-        }
+
+
 
         initButtonListeners()
         setUpRecyclerView()
@@ -85,16 +90,25 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(EXTRA_SELECTED_MOVIE, selectedMovie)
-        outState.putParcelableArrayList(EXTRA_FAVORITE_MOVIES, favoriteMovies)
+        outState.apply {
+            putInt(EXTRA_SELECTED_MOVIE, selectedMovie)
+            putInt(EXTRA_CURRENT_TAB, currentTab)
+            putParcelableArrayList(EXTRA_FAVORITE_MOVIES, favoriteMovies)
+        }
     }
 
     //Custom functions
     private fun initBottomNav() {
         bottomNavView.setOnItemSelectedListener {
             when (it.title) {
-                "Main" -> recyclerView.adapter = mainAdapter
-                "Favorite" -> recyclerView.adapter = favoriteAdapter
+                "Main" -> {
+                    recyclerView.adapter = mainAdapter
+                    currentTab = TAB_MAIN
+                }
+                "Favorite" -> {
+                    recyclerView.adapter = favoriteAdapter
+                    currentTab = TAB_FAVORITE
+                }
             }
             true
         }
@@ -142,9 +156,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             MovieItemsAdapter.TYPE_LIST_FAVORITE_MOVIES,
             adapterListeners
         )
+        if (currentTab == TAB_MAIN) recyclerView.adapter = mainAdapter
+        else recyclerView.adapter = favoriteAdapter
 
-        recyclerView.adapter = mainAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            recyclerView.layoutManager =
+                GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        else
+            recyclerView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+
     }
 
     private fun initButtonListeners() {

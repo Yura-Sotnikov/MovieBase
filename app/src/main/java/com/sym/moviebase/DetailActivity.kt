@@ -82,7 +82,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
         findViewById<Button>(R.id.btn_Done).setOnClickListener {
             //Send result & close activity
             val result = Intent().apply {
-                putExtra(RESULT_LIKE, isChecked.toString())
+                putExtra(RESULT_LIKE, isChecked)
                 putExtra(
                     RESULT_COMMENT, findViewById<EditText>(R.id.et_comment).text.toString()
                 )
