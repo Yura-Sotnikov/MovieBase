@@ -10,4 +10,7 @@
     <string name="btn_remove">Remove</string>
     <string name="btnNav_main">Главная</string>
     <string name="btnNav_favorite">Избранное</string>
+    <string name="btn_Cancel">Отмена</string>
+    <string name="btn_OK">ОК</string>
+    <string name="dialog_quit">Quit?</string>
 </resources>

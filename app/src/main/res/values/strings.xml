@@ -9,6 +9,8 @@
     <string name="btn_remove">Remove</string>
     <string name="btnNav_main">Main</string>
     <string name="btnNav_favorite">Favorite</string>
+    <string name="btn_Cancel">Cancel</string>
+    <string name="btn_OK">OK</string>
 
     <!--    Testing data-->
     <string name="title_01" translatable="false">title_01</string>
@@ -37,5 +39,6 @@
     <string name="tv_description_12" translatable="false">tv_description_12</string>
     <string name="title_13" translatable="false">title_13</string>
     <string name="tv_description_13" translatable="false">tv_description_13</string>
+    <string name="dialog_quit">Quit?</string>
 
 </resources>

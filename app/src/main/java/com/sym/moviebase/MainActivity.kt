@@ -1,6 +1,7 @@
 package com.sym.moviebase
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.coroutines.Continuation
 import com.sym.moviebase.MovieItemsAdapter.MovieClickListener as MovieClickListener
 
-// TODO(7) Создайте кастомный диалог подтверждения при выходе из приложения при нажатии
-//  кнопки back (использовать метод onBackPressed)
-//
 // TODO(8) *Написать собственный ItemDecoration
 //
 // TODO(9) *Самостоятельно изучите RecyclerView.ItemAnimator, создайте свои собственные анимации
@@ -78,9 +76,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             getInt(EXTRA_CURRENT_TAB).let { currentTab = it }
         }
 
-
-
-
         initButtonListeners()
         setUpRecyclerView()
         initBottomNav()
@@ -96,6 +91,21 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             putParcelableArrayList(EXTRA_FAVORITE_MOVIES, favoriteMovies)
         }
     }
+
+    override fun onBackPressed() {
+
+        QuitDialog(this, object : QuitDialog.QuitDialogClickListeners {
+            override fun onOKClick() {
+                closeActivity()
+            }
+        }).show()
+    }
+
+    fun closeActivity() {
+
+        super.onBackPressed()
+    }
+
 
     //Custom functions
     private fun initBottomNav() {
