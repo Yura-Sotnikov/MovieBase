@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.coroutines.Continuation
 import com.sym.moviebase.MovieItemsAdapter.MovieClickListener as MovieClickListener
 
-// TODO(8) *Написать собственный ItemDecoration
-//
 // TODO(9) *Самостоятельно изучите RecyclerView.ItemAnimator, создайте свои собственные анимации
 
 
@@ -176,6 +175,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             recyclerView.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+        //Item decoration
+        val itemDecoration = MyItemDecoration(this, resources.configuration.orientation)
+        recyclerView.addItemDecoration(itemDecoration)
 
     }
 
