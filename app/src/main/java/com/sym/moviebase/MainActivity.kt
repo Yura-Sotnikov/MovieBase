@@ -14,6 +14,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sym.moviebase.MovieItemsAdapter.MovieClickListener as MovieClickListener
 
+//TODO(1) Переведите свое приложение на единственную Activity и несколько фрагментов
+
+//TODO(2) Для навигации между фрагментами используйте NavigationDrawer или BottomNavigation
+
+//TODO(3) Добавьте CoordinatorLayout + CollapsingToolbar на детальный экран фильма
+
+//TODO(4) Добавьте Snackbar или Toast, сообщающий об успехе добавления\удаления из избранного
+
+//TODO(5) *Добавьте возможность отмены действия в snackbar
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
